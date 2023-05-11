@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform playerCam = null;
     [SerializeField] public float sens;
     [SerializeField] public float walkSpeed = 5f;
-    [SerializeField] public float jumpHeight = 2f;
     [SerializeField] public float gravity = -13f;
     float camVert = 0f;
     float yVelocity = 0f;
@@ -58,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         //movement
         Vector3 velocity = (transform.forward * DirInput.y + transform.right * DirInput.x) * walkSpeed + Vector3.down * yVelocity;
         controller.Move(velocity * Time.deltaTime);
-
+       
         if (controller.isGrounded)
         {
             yVelocity = 0f;
@@ -77,9 +76,5 @@ public class PlayerMovement : MonoBehaviour
             walkSpeed = 5f;
         }
 
-        if (Input.GetKey("space"))
-        {
-           
-        }
     }
 }
