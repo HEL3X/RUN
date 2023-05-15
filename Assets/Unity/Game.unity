@@ -248,10 +248,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8e9bd82d410ed40b7485645368d3ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallPrefab: {fileID: 0}
-  mazeWidth: 0
-  mazeHeight: 0
-  wallLength: 0
+  width: 0
+  height: 0
+  cellSize: 1
 --- !u!1 &521236642
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,10 +565,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8e9bd82d410ed40b7485645368d3ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallPrefab: {fileID: 8507238497154588522, guid: 708adb0018d434b4d8c4de83d101806e, type: 3}
-  mazeWidth: 100
-  mazeHeight: 100
-  wallLength: 20
+  width: 50
+  height: 50
+  cellSize: 5
 --- !u!4 &1784214067
 Transform:
   m_ObjectHideFlags: 0
