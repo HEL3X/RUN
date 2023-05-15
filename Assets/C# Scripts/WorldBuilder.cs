@@ -58,13 +58,13 @@ public class WorldBuilder : MonoBehaviour
                 List<int> directions = new List<int>();
 
                 // Add north direction if within bounds
-                if (y < height - 1)
+                if (y < height)
                 {
                     directions.Add(0);
                 }
 
                 // Add east direction if within bounds
-                if (x < width - 1)
+                if (x < width)
                 {
                     directions.Add(1);
                 }
@@ -97,7 +97,7 @@ public class WorldBuilder : MonoBehaviour
 
     GameObject CreateEastWall(int x1, int y1, int x2, int y2)
     {
-        Vector3 position = new Vector3((y1 + y2) * cellSize * 0.5f, 0f, (x1 + x2) * cellSize * 0.5f);
+        Vector3 position = new Vector3((x1 + x2) * cellSize * 0.5f, 0f, (y1 + y2) * cellSize * 0.5f);
         GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
         wall.transform.position = position;
         wall.transform.localScale = new Vector3(1f, cellSize * 2f, cellSize);
