@@ -11,6 +11,7 @@ public class WorldBuilder : MonoBehaviour
     [SerializeField] public float cellSize = 1f; // Size of each cell
     [SerializeField] public GameObject tile;
     public List <NavMeshSurface> surfaces;
+    public Material matt;
 
     private Cell[,] cells; // 2D array to store the cells
 
@@ -96,11 +97,13 @@ public class WorldBuilder : MonoBehaviour
         Vector3 position = new Vector3((x1 + x2) * cellSize * 0.5f, 0f, (y1 + y2) * cellSize * 0.5f);
         GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
         wall.transform.position = position;
-        wall.transform.localScale = new Vector3(cellSize, cellSize * 2f, 1f);
+        wall.transform.localScale = new Vector3(cellSize, cellSize * 10f, 1f);
 
         // Add NavMeshObstacle component to make the wall not walkable
         NavMeshObstacle obstacle = wall.AddComponent<NavMeshObstacle>();
         obstacle.carving = true;
+        wall.layer = 3;
+        wall.GetComponent<MeshRenderer>().material = matt;
 
         return wall;
     }
@@ -111,11 +114,14 @@ public class WorldBuilder : MonoBehaviour
         GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
         wall.transform.position = position;
         wall.transform.rotation = Quaternion.identity;
-        wall.transform.localScale = new Vector3(1f, cellSize * 2f, cellSize);
+        wall.transform.localScale = new Vector3(1f, cellSize * 10f, cellSize);
 
         // Add NavMeshObstacle component to make the wall not walkable
         NavMeshObstacle obstacle = wall.AddComponent<NavMeshObstacle>();
         obstacle.carving = true;
+        wall.layer = 3;
+        wall.GetComponent<MeshRenderer>().material = matt;
+
 
         return wall;
     }
