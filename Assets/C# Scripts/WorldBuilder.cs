@@ -11,7 +11,11 @@ public class WorldBuilder : MonoBehaviour
     [SerializeField] public float cellSize = 1f; // Size of each cell
     [SerializeField] public GameObject tile;
     public List <NavMeshSurface> surfaces;
+    public List<GameObject> tiles = new List<GameObject>();
     public Material matt;
+
+    [SerializeField] public GameObject player;
+    [SerializeField] public GameObject monster;
 
     private Cell[,] cells; // 2D array to store the cells
 
@@ -27,6 +31,7 @@ public class WorldBuilder : MonoBehaviour
     void Start()
     {
         GenerateMaze();
+        CreateGrid();
         Build();
     }
 
@@ -137,12 +142,30 @@ public class WorldBuilder : MonoBehaviour
 
     void CreateGrid()
     {
-        for (int i = 0; i < height*5; i++)
+        for (float i = 0; i < height; i++)
         {
-            for (int j = 0; j < width*5; j++)
+            for (float j = 0; j < width; j++)
             {
-                GameObject.Instantiate(tile, new Vector3(j, 0f, i), Quaternion.identity);
+                GameObject newTile = GameObject.Instantiate(tile, new Vector3(j*5+2.5f, 0f, i*5+2.5f), Quaternion.identity);
+                tiles.Add(newTile);
             }
+        }
+        spawnRandom();
+    }
+
+    public void spawnRandom()
+    {
+        if (tiles.Count > 0)
+        {
+            int randomPlayerIndex = Random.Range(0, tiles.Count);
+            GameObject randomPlayerTile = tiles[randomPlayerIndex];
+            player.transform.position = randomPlayerTile.transform.position;
+            tiles.RemoveAt(randomPlayerIndex);
+
+            int randomMonsterIndex = Random.Range(0, tiles.Count);
+            GameObject randomMonsterTile = tiles[randomMonsterIndex];
+            monster.transform.position = randomMonsterTile.transform.position;
+            tiles.RemoveAt(randomMonsterIndex);
         }
     }
 }

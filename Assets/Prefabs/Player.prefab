@@ -153,6 +153,11 @@ MonoBehaviour:
   sens: 3
   walkSpeed: 5
   gravity: 13
+  isMoving: 0
+  isRunning: 0
+  audioSource: {fileID: 0}
+  run: {fileID: 0}
+  walk: {fileID: 0}
 --- !u!33 &7317534004707498125
 MeshFilter:
   m_ObjectHideFlags: 0
