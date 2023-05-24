@@ -6,13 +6,15 @@ public class hatch : MonoBehaviour
 {
 
     public bool hasKey = false;
-    void OnCollisionEnter(Collision col)
+
+    void OnTriggerEnter(Collider trigger)
     {
-        if (col.gameObject.tag == "Player" && hasKey)
+        Debug.Log("" + trigger.gameObject.tag);
+        if (trigger.gameObject.tag == "Player" && hasKey)
         {
             Debug.Log("You Won!");
         }
-        else if (col.gameObject.tag == "Player")
+        else if (trigger.gameObject.tag == "Player")
         {
             Debug.Log("Find the key!");
         }
