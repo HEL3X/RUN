@@ -16,6 +16,8 @@ public class WorldBuilder : MonoBehaviour
 
     [SerializeField] public GameObject player;
     [SerializeField] public GameObject monster;
+    [SerializeField] public GameObject key;
+    [SerializeField] public GameObject hatch;
 
     private Cell[,] cells; // 2D array to store the cells
 
@@ -148,6 +150,7 @@ public class WorldBuilder : MonoBehaviour
             {
                 GameObject newTile = GameObject.Instantiate(tile, new Vector3(j*5+2.5f, 0f, i*5+2.5f), Quaternion.identity);
                 tiles.Add(newTile);
+                tile.active = true;
             }
         }
         spawnRandom();
@@ -166,6 +169,16 @@ public class WorldBuilder : MonoBehaviour
             GameObject randomMonsterTile = tiles[randomMonsterIndex];
             monster.transform.position = randomMonsterTile.transform.position;
             tiles.RemoveAt(randomMonsterIndex);
+
+            int randomKeyIndex = Random.Range(0, tiles.Count);
+            GameObject randomKeyTile = tiles[randomKeyIndex];
+            key.transform.position = new Vector3(randomKeyTile.transform.position.x, 2, randomKeyTile.transform.position.z);
+            tiles.RemoveAt(randomKeyIndex);
+
+            int randomHatchIndex = Random.Range(0, tiles.Count);
+            GameObject randomHatchTile = tiles[randomHatchIndex];
+            hatch.transform.position = new Vector3(randomHatchTile.transform.position.x+0.85f, 0.6f, randomHatchTile.transform.position.z+0.85f);
+            tiles.RemoveAt(randomHatchIndex);
         }
     }
 }
