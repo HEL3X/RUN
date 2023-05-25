@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class FOV : MonoBehaviour
 {
@@ -27,11 +28,24 @@ public class FOV : MonoBehaviour
 
     public bool isSeen = false;
 
+    public bool isMoving;
+    Vector3 oldPos;
+    Vector3 newPos;
+    private Animator anim;
+
+    public GameObject onDeath;
+    public AudioSource jumpscareSource;
+    public AudioSource audioSource1;
+
     private void Start()
     {
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
+        
+        anim = GetComponent<Animator>();
+        onDeath.SetActive(false);
+        Time.timeScale = 1;
 
         StartCoroutine(FindTargetsWithDelay(.2f));
     }
@@ -40,6 +54,7 @@ public class FOV : MonoBehaviour
     {
         time += Time.deltaTime;
         Vector3 vector3 = player.transform.position;
+        checkStanding();
 
         if (isSeen)
         {
@@ -55,6 +70,22 @@ public class FOV : MonoBehaviour
             agent.SetDestination(vector3);
             time = 0;
         }
+    }
+
+    void checkStanding()
+    {
+        newPos = transform.position;
+        if (newPos != oldPos)
+        {
+            isMoving = true;
+            anim.SetBool("isWalking", true);
+        }
+        else
+        {
+            isMoving = false;
+            anim.SetBool("isWalking", false);
+        }
+        oldPos = newPos;
     }
 
     private IEnumerator FindTargetsWithDelay(float delay)
@@ -234,6 +265,12 @@ public class FOV : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("You Lost");
+            audioSource1.Stop();
+            jumpscareSource.Play();
+            onDeath.SetActive(true);
+            Time.timeScale = 0;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }

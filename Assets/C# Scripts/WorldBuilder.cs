@@ -150,7 +150,7 @@ public class WorldBuilder : MonoBehaviour
             {
                 GameObject newTile = GameObject.Instantiate(tile, new Vector3(j*5+2.5f, 0f, i*5+2.5f), Quaternion.identity);
                 tiles.Add(newTile);
-                tile.active = true;
+                tile.active = false;
             }
         }
         spawnRandom();
