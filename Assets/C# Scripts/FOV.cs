@@ -37,6 +37,8 @@ public class FOV : MonoBehaviour
     public AudioSource jumpscareSource;
     public AudioSource audioSource1;
 
+    public hatch h;
+
     private void Start()
     {
         viewMesh = new Mesh();
@@ -69,6 +71,11 @@ public class FOV : MonoBehaviour
         {
             agent.SetDestination(vector3);
             time = 0;
+        }
+
+        if (h.hasWon)
+        {
+            audioSource1.Stop();
         }
     }
 

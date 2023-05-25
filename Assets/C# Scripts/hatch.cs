@@ -7,7 +7,8 @@ public class hatch : MonoBehaviour
 
     public bool hasKey = false;
     public GameObject onWin;
-
+    public AudioSource winSong;
+    public bool hasWon;
     public void Start()
     {
         onWin.SetActive(false);
@@ -24,6 +25,9 @@ public class hatch : MonoBehaviour
             Time.timeScale = 0;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+
+            winSong.Play();
+            hasWon = true;
         }
         else if (trigger.gameObject.tag == "Player")
         {

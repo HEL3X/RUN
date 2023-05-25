@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform playerCam = null;
     [SerializeField] public float sens;
     [SerializeField] public float walkSpeed = 5f;
+    [SerializeField] public float runSpeed = 10f;
     [SerializeField] public float gravity = -13f;
     float camVert = 0f;
     float yVelocity = 0f;
@@ -21,6 +23,12 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip run;
     public AudioClip walk;
 
+    public float stam;
+    public float maxStam;
+    public Slider stamBar;
+    public float dVal;
+    public float runDelay;
+    public AudioSource outOfBreath;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +39,9 @@ public class PlayerMovement : MonoBehaviour
         isMoving = false;
         isRunning = false;
         audioSource = gameObject.GetComponent<AudioSource>();
+
+        maxStam = stam;
+        stamBar.maxValue = maxStam;
     }
 
     // Update is called once per frame
@@ -39,6 +50,30 @@ public class PlayerMovement : MonoBehaviour
         MouseUpdate();
         MovementKeys();
         checkStanding();
+
+        if (stam < 0.1f && isRunning)
+        {
+            walkSpeed = 5f;
+            isRunning = false;
+            stam = runDelay;
+            outOfBreath.Play();
+        }
+    }
+
+    private void DecreaseStam()
+    {
+        if (stam != 0)
+        {
+            stam -= dVal * Time.deltaTime;
+        }
+        stamBar.value = stam;
+    }private void IncreaseStam()
+    {
+        if (stam != maxStam)
+        {
+            stam += dVal * Time.deltaTime;
+        }
+        stamBar.value = stam;
     }
 
     void MouseUpdate()
@@ -57,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
         //transforms
         transform.Rotate(Vector3.up * mouseDt.x * sens);
     }
+
 
     void checkStanding()
     {
@@ -93,15 +129,21 @@ public class PlayerMovement : MonoBehaviour
             yVelocity += gravity * Time.deltaTime;
         }
 
-        if (Input.GetKey("left shift"))
+        if (stam > 0 && Input.GetKey("left shift"))
         {
-            walkSpeed = 10f;
+            walkSpeed = runSpeed;
             isRunning = true;
-        }
-        else
+            DecreaseStam();
+
+        }else
         {
             walkSpeed = 5f;
             isRunning = false;
+            if (stam < 50)
+            {
+                IncreaseStam();
+            }
+            
         }
 
 
