@@ -135,6 +135,7 @@ public class WorldBuilder : MonoBehaviour
 
     public void Build()
     {
+        //Add to Baked Mesh
         for (int i = 0; i < surfaces.Count; i++)
         {
             surfaces[i].BuildNavMesh();
@@ -144,6 +145,7 @@ public class WorldBuilder : MonoBehaviour
 
     void CreateGrid()
     {
+        // Grid of Tiles in Maze
         for (float i = 0; i < height; i++)
         {
             for (float j = 0; j < width; j++)
@@ -160,21 +162,25 @@ public class WorldBuilder : MonoBehaviour
     {
         if (tiles.Count > 0)
         {
+            //Spawn Player at Random Location in Maze
             int randomPlayerIndex = Random.Range(0, tiles.Count);
             GameObject randomPlayerTile = tiles[randomPlayerIndex];
             player.transform.position = randomPlayerTile.transform.position;
             tiles.RemoveAt(randomPlayerIndex);
 
+            //Spawn Monster at Random Location in Maze
             int randomMonsterIndex = Random.Range(0, tiles.Count);
             GameObject randomMonsterTile = tiles[randomMonsterIndex];
             monster.transform.position = randomMonsterTile.transform.position;
             tiles.RemoveAt(randomMonsterIndex);
 
+            //Spawn Key at Random Location in Maze
             int randomKeyIndex = Random.Range(0, tiles.Count);
             GameObject randomKeyTile = tiles[randomKeyIndex];
             key.transform.position = new Vector3(randomKeyTile.transform.position.x, 2, randomKeyTile.transform.position.z);
             tiles.RemoveAt(randomKeyIndex);
 
+            //Spawn Hatch at Random Location in Maze
             int randomHatchIndex = Random.Range(0, tiles.Count);
             GameObject randomHatchTile = tiles[randomHatchIndex];
             hatch.transform.position = new Vector3(randomHatchTile.transform.position.x+0.85f, 0.6f, randomHatchTile.transform.position.z+0.85f);

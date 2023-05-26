@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class MonsterController : MonoBehaviour
+public class Monster : MonoBehaviour
 {
     // Variables exposed in the Unity Editor
     [SerializeField] public float viewRad; // View radius

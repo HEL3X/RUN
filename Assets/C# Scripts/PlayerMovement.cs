@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Initialization
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -44,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
         stamBar.maxValue = maxStam;
     }
 
-    // Update is called once per frame
     void Update()
     {
         MouseUpdate();
@@ -67,7 +67,9 @@ public class PlayerMovement : MonoBehaviour
             stam -= dVal * Time.deltaTime;
         }
         stamBar.value = stam;
-    }private void IncreaseStam()
+    }
+
+    private void IncreaseStam()
     {
         if (stam != maxStam)
         {
@@ -79,21 +81,21 @@ public class PlayerMovement : MonoBehaviour
     void MouseUpdate()
     {
         Vector2 mouseDt = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        
-        //pitch
+
+        // Adjust the camera's vertical rotation (pitch)
         camVert = camVert - mouseDt.y * sens;
 
-        //clamps the max angle you can look up / down
+        // Clamp the maximum angle for looking up/down
         camVert = Mathf.Clamp(camVert, -90f, 90f);
 
-        //rotate by right vector 
+        // Rotate the camera using the right vector
         playerCam.localEulerAngles = Vector3.right * camVert;
 
-        //transforms
+        // Rotate the player using the mouse's horizontal movement
         transform.Rotate(Vector3.up * mouseDt.x * sens);
     }
 
-
+    //Check if Player is Moving or Not
     void checkStanding()
     {
         newPos = transform.position;
@@ -112,14 +114,13 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 DirInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        //Normalize the vector so you don't go faster walking diagonally 
+        // Normalize the input vector to avoid faster diagonal movement
         DirInput.Normalize();
 
-        //movement
+        // Calculate the player's velocity based on the input and current speed
         Vector3 velocity = (transform.forward * DirInput.y + transform.right * DirInput.x) * walkSpeed + Vector3.down * yVelocity;
         controller.Move(velocity * Time.deltaTime);
 
-       
         if (controller.isGrounded)
         {
             yVelocity = 0f;
@@ -134,8 +135,8 @@ public class PlayerMovement : MonoBehaviour
             walkSpeed = runSpeed;
             isRunning = true;
             DecreaseStam();
-
-        }else
+        }
+        else
         {
             walkSpeed = 5f;
             isRunning = false;
@@ -143,12 +144,9 @@ public class PlayerMovement : MonoBehaviour
             {
                 IncreaseStam();
             }
-            
         }
 
-
-        // Audio Switch
-
+        // Switch audio clip based on movement state
         if (isMoving && isRunning)
         {
             audioSource.clip = run;
@@ -162,10 +160,10 @@ public class PlayerMovement : MonoBehaviour
             audioSource.clip = null;
         }
 
+        // Play audio clip if not already playing
         if (audioSource.clip != null && !audioSource.isPlaying)
         {
             audioSource.Play();
         }
-
     }
 }
