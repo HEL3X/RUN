@@ -37,7 +37,7 @@ public class WorldBuilder : MonoBehaviour
         Build();
     }
 
-    // Generate the maze using the Binary Tree algorithm
+    // Generate the maze using the Randomized Binary Tree Algorithm
     void GenerateMaze()
     {
         // Initialize the cell grid
